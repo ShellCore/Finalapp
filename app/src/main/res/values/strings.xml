@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Final app</string>
+
+    <!--Login-->
+    <string name="login.hint.email">Email</string>
+    <string name="login.hint.password">Password</string>
+    <string name="login.hint.confirm_password">Confirm Password</string>
+    <string name="login.btn.sign_in">Sign In</string>
+    <string name="login.btn.sign_up">Sign Up</string>
+    <string name="login.btn.reset_password">Reset my password</string>
+    <string name="login.btn.sign_in_google">Sign In with Google</string>
+    <string name="login.btn.forgot_password">I have forgotten my password</string>
+    <string name="login.btn.create_account">Create a new account</string>
+    <string name="login.btn.go_login">Go back to Login</string>
+
+    <string name="login.message.not_valid">Please fill all the data.</string>
+
+    <string name="signup.message.not_logged">User is not logged in.</string>
+    <string name="signup.message.logged">User already logged.</string>
+    <string name="signup.message.created">An email has been sent to you. Please confirm before sign in.</string>
+    <string name="signup.message.not_created">An unexpected error eccurred. Please try again.</string>
+    <string name="signup.message.not_valid">Please fill all the data and confirm password is correct.</string>
+
+</resources>
