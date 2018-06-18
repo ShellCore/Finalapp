@@ -12,15 +12,14 @@
         <activity android:name=".MainActivity" />
         <activity
             android:name=".ui.login.ui.LoginActivity"
+            android:theme="@style/NoPreview"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.signup.ui.SignUpActivity"
-            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".ui.signup.ui.SignUpActivity" />
         <activity
             android:name=".ui.forgotpass.ui.ForgotPasswordActivity"
             android:windowSoftInputMode="adjustPan" />

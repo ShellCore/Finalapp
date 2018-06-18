@@ -5,6 +5,10 @@ import android.support.v7.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
 import mx.shellcore.android.finalapp.R
+import mx.shellcore.android.finalapp.ui.forgotpass.ui.ForgotPasswordActivity
+import mx.shellcore.android.finalapp.ui.signup.ui.SignUpActivity
+import mx.shellcore.android.finalapp.utils.goToActivity
+import mx.shellcore.android.finalapp.utils.showMessage
 
 class LoginActivity : AppCompatActivity() {
 
@@ -17,24 +21,36 @@ class LoginActivity : AppCompatActivity() {
         btnLoginSignIn.setOnClickListener {
             val email = edtLoginEmail.text.toString()
             val password = edtLoginPassword.text.toString()
-            if (isValidEmailPassword()) {
-                signinByEmail(email, password)
+            if (isValidEmailPassword(email, password)) {
+                loginByEmail(email, password)
             } else {
                 showMessage(getString(R.string.login_message_not_valid))
             }
         }
+
+        txtLoginForgotPassword.setOnClickListener {
+            goToActivity<ForgotPasswordActivity>()
+            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+        }
+
+        btnLoginSignUp.setOnClickListener {
+            goToActivity<SignUpActivity>()
+            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+        }
     }
 
-    private fun signinByEmail(email: String, password: String) {
-        // TODO Falta implementación
+    private fun loginByEmail(email: String, password: String) {
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) {task ->
+            if (task.isSuccessful) {
+                showMessage("User is now logged in.")
+            } else {
+                showMessage("An unexcepected error ocurred, please try again.")
+            }
+        }
     }
 
-    private fun isValidEmailPassword() : Boolean {
-        // TODO Falta implementación
-        return false
-    }
-
-    private fun showMessage(message: String) {
-        // TODO Falta implementación
+    private fun isValidEmailPassword(email: String, password: String): Boolean {
+        return email.isNullOrEmpty().not()
+                && !password.isNullOrEmpty()
     }
 }
