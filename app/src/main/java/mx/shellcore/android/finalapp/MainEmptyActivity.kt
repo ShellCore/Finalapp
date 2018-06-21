@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.google.firebase.auth.FirebaseAuth
 import mx.shellcore.android.finalapp.ui.login.ui.LoginActivity
+import mx.shellcore.android.finalapp.ui.main.ui.MainActivity
 import mx.shellcore.android.finalapp.utils.goToActivity
 
 class MainEmptyActivity : AppCompatActivity() {

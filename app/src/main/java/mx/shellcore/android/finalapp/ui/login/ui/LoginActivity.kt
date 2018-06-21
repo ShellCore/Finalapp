@@ -11,7 +11,7 @@ import com.google.android.gms.common.api.GoogleApiClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.android.synthetic.main.activity_login.*
-import mx.shellcore.android.finalapp.MainActivity
+import mx.shellcore.android.finalapp.ui.main.ui.MainActivity
 import mx.shellcore.android.finalapp.R
 import mx.shellcore.android.finalapp.ui.forgotpass.ui.ForgotPasswordActivity
 import mx.shellcore.android.finalapp.ui.signup.ui.SignUpActivity
