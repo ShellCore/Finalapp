@@ -14,12 +14,17 @@
     <string name="login.btn.go_login">Go back to Login</string>
     <string name="login.message.email_verified">User is now logged in.</string>
     <string name="login.message.email_not_verified">User must confirm email first.</string>
+    <string name="login.message.signed_in_google">Signed in by Google.</string>
 
     <string name="signup.message.not_logged">User is not logged in.</string>
     <string name="signup.message.logged">User already logged.</string>
     <string name="signup.message.created">An email has been sent to you. Please confirm before sign in.</string>
 
+    <string name="reset_password.message.not_correct_email">Please make sure the email address is correct.</string>
+    <string name="reset_password.message.reset_password_email_sent">Email has been sent to reset your password.</string>
+
     <string name="default.message.error">An unexpected error eccurred. Please try again.</string>
+    <string name="default.message.connection_fail">Connection failed</string>
     <string name="default.validation.error.not_valid_email">Email is not valid.</string>
     <string name="default.validation.error.not_valid_password">Password should contain 1 lowercase, 1 uppercase, 1 number, 1 special character and at least 4 characters lenght.</string>
     <string name="default.validation.error.not_valid_confirm_password">Confirm Passord does not match with Password.</string>
