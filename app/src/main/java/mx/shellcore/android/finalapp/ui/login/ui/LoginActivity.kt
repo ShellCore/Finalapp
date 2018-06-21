@@ -7,8 +7,7 @@ import kotlinx.android.synthetic.main.activity_login.*
 import mx.shellcore.android.finalapp.R
 import mx.shellcore.android.finalapp.ui.forgotpass.ui.ForgotPasswordActivity
 import mx.shellcore.android.finalapp.ui.signup.ui.SignUpActivity
-import mx.shellcore.android.finalapp.utils.goToActivity
-import mx.shellcore.android.finalapp.utils.showMessage
+import mx.shellcore.android.finalapp.utils.*
 
 class LoginActivity : AppCompatActivity() {
 
@@ -18,13 +17,18 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        setupValidations()
+        setupOnClicks()
+    }
+
+    private fun setupOnClicks() {
         btnLoginSignIn.setOnClickListener {
             val email = edtLoginEmail.text.toString()
             val password = edtLoginPassword.text.toString()
             if (isValidEmailPassword(email, password)) {
                 loginByEmail(email, password)
             } else {
-                showMessage(getString(R.string.login_message_not_valid))
+                showMessage(getString(R.string.default_validation_error_not_valid_data))
             }
         }
 
@@ -39,18 +43,32 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    private fun setupValidations() {
+        edtLoginEmail.validate {
+            edtLoginEmail.error = if (isValidEmail(it)) null else getString(R.string.default_validation_error_not_valid_email)
+        }
+
+        edtLoginPassword.validate {
+            edtLoginPassword.error = if (isValidPassword(it)) null else getString(R.string.default_validation_error_not_valid_password)
+        }
+    }
+
     private fun loginByEmail(email: String, password: String) {
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) {task ->
             if (task.isSuccessful) {
-                showMessage("User is now logged in.")
+                if (mAuth.currentUser!!.isEmailVerified) {
+                    showMessage(getString(R.string.login_message_email_verified))
+                } else {
+                    showMessage(getString(R.string.login_message_email_not_verified))
+                }
             } else {
-                showMessage("An unexcepected error ocurred, please try again.")
+                showMessage(getString(R.string.default_message_error))
             }
         }
     }
 
     private fun isValidEmailPassword(email: String, password: String): Boolean {
-        return email.isNullOrEmpty().not()
-                && !password.isNullOrEmpty()
+        return isValidEmail(email)
+                && isValidPassword(password)
     }
 }
