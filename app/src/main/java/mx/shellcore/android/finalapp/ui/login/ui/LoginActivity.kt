@@ -11,6 +11,7 @@ import com.google.android.gms.common.api.GoogleApiClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.android.synthetic.main.activity_login.*
+import mx.shellcore.android.finalapp.MainActivity
 import mx.shellcore.android.finalapp.R
 import mx.shellcore.android.finalapp.ui.forgotpass.ui.ForgotPasswordActivity
 import mx.shellcore.android.finalapp.ui.signup.ui.SignUpActivity
@@ -91,7 +92,8 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
                 } else {
                     showMessage(getString(R.string.login_message_email_not_verified))
                 }
-            } else {
+            }
+            else {
                 showMessage(getString(R.string.default_message_error))
             }
         }
@@ -116,7 +118,12 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
     private fun loginByGoogleAccountIntoFirebase(googleAccount : GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(googleAccount.idToken, null)
         mAuth.signInWithCredential(credential).addOnCompleteListener {
-            showMessage(getString(R.string.login_message_signed_in_google))
+            if (mGoogleApiClient.isConnected) {
+                Auth.GoogleSignInApi.signOut(mGoogleApiClient)
+            }
+            goToActivity<MainActivity> {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            }
         }
     }
 }
