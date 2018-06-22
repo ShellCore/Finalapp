@@ -5,7 +5,6 @@ import android.support.v4.view.ViewPager
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import com.example.mylibrary.ToolbarActivity
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import mx.shellcore.android.finalapp.R
 import mx.shellcore.android.finalapp.ui.main.ui.adapters.PagerAdapter

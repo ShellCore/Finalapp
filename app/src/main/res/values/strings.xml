@@ -34,5 +34,6 @@
     <string name="main.button_nav.rates">Rates</string>
     <string name="main.button_nav.chat">Chat</string>
 
+    <string name="chat.hint.type_message">Type here a message...</string>
 
 </resources>
