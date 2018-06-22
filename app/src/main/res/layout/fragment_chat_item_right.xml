@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_editor_absoluteX="0dp"
+    app:layout_editor_absoluteY="25dp">
+
+    <ImageView
+        android:id="@+id/imgProfileRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/txtMessageRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bubble_chat_right"
+        android:maxWidth="300dp"
+        android:textAlignment="viewEnd"
+        android:paddingBottom="8dp"
+        android:paddingEnd="18dp"
+        android:paddingStart="8dp"
+        android:paddingTop="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/imgProfileRight"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Mensaje de prueba" />
+
+    <TextView
+        android:id="@+id/txtTimeRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:layout_marginEnd="4dp"
+        android:textSize="12sp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="@+id/txtMessageRight"
+        app:layout_constraintEnd_toStartOf="@+id/txtMessageRight"
+        tools:text="12:12" />
+</android.support.constraint.ConstraintLayout>
