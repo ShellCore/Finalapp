@@ -15,10 +15,6 @@ import mx.shellcore.android.finalapp.ui.main.ui.fragments.RatesFragment
 
 class MainActivity : ToolbarActivity() {
 
-    private val mAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
-
-    private lateinit var adapter: PagerAdapter
-
     private var prevButtonSelected: MenuItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,19 +22,20 @@ class MainActivity : ToolbarActivity() {
         setContentView(R.layout.activity_main)
 
         loadToolbar(toolbarView as Toolbar)
+
         setupViewPager(getPagerAdapter())
         setupBottomNavigationBar()
     }
 
     private fun getPagerAdapter(): PagerAdapter {
-        adapter = PagerAdapter(supportFragmentManager)
-        adapter.addFragment(ChatFragment())
+        val adapter = PagerAdapter(supportFragmentManager)
         adapter.addFragment(InfoFragment())
         adapter.addFragment(RatesFragment())
+        adapter.addFragment(ChatFragment())
         return adapter
     }
 
-    private fun setupViewPager(pager: PagerAdapter) {
+    private fun setupViewPager(adapter: PagerAdapter) {
         viewPager.adapter = adapter
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {}

@@ -5,6 +5,9 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.ui.fragments.ChatFragment">
 
-
+    <TextView
+        android:text="Hello from chat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </FrameLayout>
