@@ -9,6 +9,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
+import java.text.SimpleDateFormat
+import java.util.*
 import java.util.regex.Pattern
 
 fun Activity.showMessage(message: String, duration: Int = Toast.LENGTH_SHORT) = Toast.makeText(this, message, duration).show()
@@ -51,3 +53,5 @@ fun Activity.isValidPassword(password: String) : Boolean {
 fun Activity.isValidConfirmPassword(password: String, confirmPassword: String) : Boolean {
     return password == confirmPassword
 }
+
+fun Date.getFormattedDate() = SimpleDateFormat("hh:mm").format(this)
