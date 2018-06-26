@@ -51,7 +51,12 @@ class ChatAdapter(val list: List<Message>, val userId: String) : RecyclerView.Ad
                         .transform(CirclerTransform())
                         .into(imgProfileRight)
             } else {
-
+                Picasso.get()
+                        .load(R.drawable.ic_person)
+                        .resize(100, 100)
+                        .centerCrop()
+                        .transform(CirclerTransform())
+                        .into(imgProfileRight)
             }
         }
     }
@@ -69,7 +74,12 @@ class ChatAdapter(val list: List<Message>, val userId: String) : RecyclerView.Ad
                         .transform(CirclerTransform())
                         .into(imgProfileLeft)
             } else {
-
+                Picasso.get()
+                        .load(R.drawable.ic_person)
+                        .resize(100, 100)
+                        .centerCrop()
+                        .transform(CirclerTransform())
+                        .into(imgProfileLeft)
             }
         }
     }
