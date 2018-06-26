@@ -34,6 +34,9 @@
     <string name="main.button_nav.rates">Rates</string>
     <string name="main.button_nav.chat">Chat</string>
 
-    <string name="chat.hint.type_message">Type here a message...</string>
+    <string name="chat.hint.type_message">Type here a message…</string>
+
+    <string name="info.label.messages">Total messages</string>
+    <string name="info.message.no_name">Name is not available</string>
 
 </resources>

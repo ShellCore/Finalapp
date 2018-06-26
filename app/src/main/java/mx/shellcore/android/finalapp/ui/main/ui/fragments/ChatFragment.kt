@@ -50,9 +50,9 @@ class ChatFragment : Fragment() {
         return _view
     }
 
-    override fun onDestroy() {
+    override fun onDestroyView() {
         chatSubscription?.remove()
-        super.onDestroy()
+        super.onDestroyView()
     }
 
     private fun setupChatDatabase() {

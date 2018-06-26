@@ -36,6 +36,7 @@ class MainActivity : ToolbarActivity() {
 
     private fun setupViewPager(adapter: PagerAdapter) {
         viewPager.adapter = adapter
+        viewPager.offscreenPageLimit = 3 // Validación del número de fragmentos que se cargan antes y después del fragmento en pantalla.
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {}
 
