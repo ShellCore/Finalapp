@@ -29,7 +29,7 @@ class ChatAdapter(val list: List<Message>, val userId: String) : RecyclerView.Ad
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder.itemViewType) {
             MY_MESSAGE -> (holder as ViewHolderRight).bind(list[position])
-            else       -> (holder as ViewHolderLeft).bind(list[position])
+            else -> (holder as ViewHolderLeft).bind(list[position])
         }
     }
 
@@ -43,12 +43,16 @@ class ChatAdapter(val list: List<Message>, val userId: String) : RecyclerView.Ad
         fun bind(message: Message) = with(itemView) {
             txtMessageRight.text = message.message
             txtTimeRight.text = message.sentAt.getFormattedDate()
-            Picasso.get()
-                    .load(message.profileImageUrl)
-                    .resize(100, 100)
-                    .centerCrop()
-                    .transform(CirclerTransform())
-                    .into(imgProfileRight)
+            if (message.profileImageUrl.isNotEmpty()) {
+                Picasso.get()
+                        .load(message.profileImageUrl)
+                        .resize(100, 100)
+                        .centerCrop()
+                        .transform(CirclerTransform())
+                        .into(imgProfileRight)
+            } else {
+
+            }
         }
     }
 
@@ -57,12 +61,16 @@ class ChatAdapter(val list: List<Message>, val userId: String) : RecyclerView.Ad
         fun bind(message: Message) = with(itemView) {
             txtMessageLeft.text = message.message
             txtTimeLeft.text = message.sentAt.getFormattedDate()
-            Picasso.get()
-                    .load(message.profileImageUrl)
-                    .resize(100, 100)
-                    .centerCrop()
-                    .transform(CirclerTransform())
-                    .into(imgProfileLeft)
+            if (message.profileImageUrl.isNotEmpty()) {
+                Picasso.get()
+                        .load(message.profileImageUrl)
+                        .resize(100, 100)
+                        .centerCrop()
+                        .transform(CirclerTransform())
+                        .into(imgProfileLeft)
+            } else {
+
+            }
         }
     }
 

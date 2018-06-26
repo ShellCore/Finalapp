@@ -10,29 +10,31 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.*
 import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.fragment_chat.view.*
-
 import mx.shellcore.android.finalapp.R
+import mx.shellcore.android.finalapp.R.id.edtMessage
 import mx.shellcore.android.finalapp.models.Message
 import mx.shellcore.android.finalapp.ui.chat.adapters.ChatAdapter
 import mx.shellcore.android.finalapp.utils.showMessage
 import java.util.*
+import java.util.EventListener
 import kotlin.collections.HashMap
 
 class ChatFragment : Fragment() {
 
-    private lateinit var _view : View
-    private lateinit var chatAdapter : ChatAdapter
-    private var messages : List<Message> = ArrayList()
+    private lateinit var _view: View
+    private lateinit var chatAdapter: ChatAdapter
+    private var messages: ArrayList<Message> = ArrayList()
 
-    private var store : FirebaseFirestore = FirebaseFirestore.getInstance()
-    private lateinit var chatDbReference : CollectionReference
+    private var store: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private lateinit var chatDbReference: CollectionReference
 
-    private val mAuth : FirebaseAuth = FirebaseAuth.getInstance()
-    private lateinit var currentUser : FirebaseUser
+    private val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
+    private lateinit var currentUser: FirebaseUser
+
+    private var chatSubscription : ListenerRegistration? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -43,7 +45,14 @@ class ChatFragment : Fragment() {
         setupRecyclerView()
         setupChatBtn()
 
+        subscribeToChatMessages()
+
         return _view
+    }
+
+    override fun onDestroy() {
+        chatSubscription?.remove()
+        super.onDestroy()
     }
 
     private fun setupChatDatabase() {
@@ -57,12 +66,11 @@ class ChatFragment : Fragment() {
     private fun setupRecyclerView() {
         chatAdapter = ChatAdapter(messages, currentUser.uid)
 
-        _view.recChat.apply {
-            layoutManager = LinearLayoutManager(context)
-            setHasFixedSize(true)
-            itemAnimator = DefaultItemAnimator()
-            this.adapter = chatAdapter
-        }
+        _view.recChat.layoutManager = LinearLayoutManager(context)
+        _view.recChat.setHasFixedSize(true)
+        _view.recChat.itemAnimator = DefaultItemAnimator()
+        _view.recChat.adapter = chatAdapter
+
     }
 
     private fun setupChatBtn() {
@@ -90,5 +98,29 @@ class ChatFragment : Fragment() {
                 .addOnFailureListener {
                     activity!!.showMessage("Error, try again!")
                 }
+    }
+
+    private fun subscribeToChatMessages() {
+        chatSubscription = chatDbReference
+                .orderBy("sentAt", Query.Direction.DESCENDING)
+                .limit(100)
+                .addSnapshotListener(object : EventListener, com.google.firebase.firestore.EventListener<QuerySnapshot> {
+
+            override fun onEvent(snapshot: QuerySnapshot?, exception: FirebaseFirestoreException?) {
+                exception?.let {
+                    activity!!.showMessage("Exception!")
+                    return
+                }
+
+                snapshot?.let {
+                    messages.clear()
+                    val list = it.toObjects(Message::class.java)
+                    messages.addAll(list.asReversed())
+                    chatAdapter.notifyDataSetChanged()
+                    _view.recChat.smoothScrollToPosition(messages.size)
+                }
+            }
+
+        })
     }
 }

@@ -88,7 +88,9 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) {task ->
             if (task.isSuccessful) {
                 if (mAuth.currentUser!!.isEmailVerified) {
-                    showMessage(getString(R.string.login_message_email_verified))
+                    goToActivity<MainActivity> {
+                        flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                    }
                 } else {
                     showMessage(getString(R.string.login_message_email_not_verified))
                 }
