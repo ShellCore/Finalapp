@@ -18,7 +18,9 @@ import kotlinx.android.synthetic.main.fragment_chat.view.*
 import mx.shellcore.android.finalapp.R
 import mx.shellcore.android.finalapp.models.Message
 import mx.shellcore.android.finalapp.ui.chat.adapters.ChatAdapter
+import mx.shellcore.android.finalapp.utils.showMessage
 import java.util.*
+import kotlin.collections.HashMap
 
 class ChatFragment : Fragment() {
 
@@ -68,11 +70,25 @@ class ChatFragment : Fragment() {
             val message = edtMessage.text.toString()
             if (message.isNotEmpty()) {
                 val message = Message(currentUser.uid, message, currentUser.photoUrl.toString(), Date())
-                // TODO Guardaremos el mensaje en Firebase
+                saveMessage(message)
                 _view.edtMessage.setText("")
             }
         }
     }
 
+    private fun saveMessage(message: Message) {
+        val newMessage = HashMap<String, Any>()
+        newMessage["authorId"] = message.authorId
+        newMessage["message"] = message.message
+        newMessage["profileImageUrl"] = message.profileImageUrl
+        newMessage["sentAt"] = message.sentAt
 
+        chatDbReference.add(newMessage)
+                .addOnCompleteListener {
+                    activity!!.showMessage("Message added!")
+                }
+                .addOnFailureListener {
+                    activity!!.showMessage("Error, try again!")
+                }
+    }
 }
