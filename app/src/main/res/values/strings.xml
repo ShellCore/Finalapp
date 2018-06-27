@@ -45,4 +45,10 @@
     <string name="info.label.messages">Total messages</string>
     <string name="info.message.no_name">Name is not available</string>
 
+    <!--Dialog-->
+    <string name="dialog.title">Rate the app!</string>
+    <string name="dialog.hint.rate_feedback">Leave your feedback…</string>
+    <string name="dialog.button.ok">Rate</string>
+    <string name="dialog.button.cancel">Cancel</string>
+
 </resources>
