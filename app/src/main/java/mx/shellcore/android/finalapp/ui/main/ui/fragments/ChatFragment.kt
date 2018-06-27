@@ -16,7 +16,9 @@ import kotlinx.android.synthetic.main.fragment_chat.view.*
 import mx.shellcore.android.finalapp.R
 import mx.shellcore.android.finalapp.R.id.edtMessage
 import mx.shellcore.android.finalapp.models.Message
+import mx.shellcore.android.finalapp.models.TotalMessagesEvent
 import mx.shellcore.android.finalapp.ui.chat.adapters.ChatAdapter
+import mx.shellcore.android.finalapp.utils.RxBus
 import mx.shellcore.android.finalapp.utils.showMessage
 import java.util.*
 import java.util.EventListener
@@ -123,6 +125,7 @@ class ChatFragment : Fragment() {
                     messages.addAll(list.asReversed())
                     chatAdapter.notifyDataSetChanged()
                     _view.recChat.smoothScrollToPosition(messages.size)
+                    RxBus.publish(TotalMessagesEvent(messages.size))
                 }
             }
 

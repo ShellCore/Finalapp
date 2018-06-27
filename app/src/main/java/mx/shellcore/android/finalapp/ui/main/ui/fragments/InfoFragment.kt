@@ -11,9 +11,10 @@ import com.google.firebase.firestore.*
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_info.view.*
 import mx.shellcore.android.finalapp.R
+import mx.shellcore.android.finalapp.models.TotalMessagesEvent
 import mx.shellcore.android.finalapp.utils.CirclerTransform
+import mx.shellcore.android.finalapp.utils.RxBus
 import mx.shellcore.android.finalapp.utils.showMessage
-import java.util.*
 import java.util.EventListener
 
 class InfoFragment : Fragment() {
@@ -37,7 +38,8 @@ class InfoFragment : Fragment() {
         setupCurrentUserInfoUI()
 
         // FirebaseStyle
-        subscribeToToalMessagesFirebaseStyle()
+//        subscribeToTotalMessagesFirebaseStyle()
+        subscribetoTotalMessagesEventBusReactiveStyle()
 
         return _view
     }
@@ -79,7 +81,7 @@ class InfoFragment : Fragment() {
         }
     }
 
-    private fun subscribeToToalMessagesFirebaseStyle() {
+    private fun subscribeToTotalMessagesFirebaseStyle() {
         chatDatabaseReference.addSnapshotListener(object: EventListener, com.google.firebase.firestore.EventListener<QuerySnapshot> {
 
             override fun onEvent(querySnapshot: QuerySnapshot?, exception: FirebaseFirestoreException?) {
@@ -92,5 +94,12 @@ class InfoFragment : Fragment() {
                 }
             }
         })
+    }
+
+    private fun subscribetoTotalMessagesEventBusReactiveStyle() {
+        RxBus.listen(TotalMessagesEvent::class.java)
+                .subscribe {
+                    _view.txtTotalMessages.text = "${it.total}"
+                }
     }
 }
