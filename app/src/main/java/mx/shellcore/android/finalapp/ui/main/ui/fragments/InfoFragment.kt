@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
 import com.squareup.picasso.Picasso
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_info.view.*
 import mx.shellcore.android.finalapp.R
 import mx.shellcore.android.finalapp.models.TotalMessagesEvent
@@ -28,6 +29,7 @@ class InfoFragment : Fragment() {
     private lateinit var chatDatabaseReference : CollectionReference
 
     private var chatSubscription : ListenerRegistration? = null
+    private lateinit var infoBusListener: Disposable
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -45,6 +47,7 @@ class InfoFragment : Fragment() {
     }
 
     override fun onDestroyView() {
+        infoBusListener.dispose()
         chatSubscription?.remove()
         super.onDestroyView()
     }
@@ -97,7 +100,7 @@ class InfoFragment : Fragment() {
     }
 
     private fun subscribetoTotalMessagesEventBusReactiveStyle() {
-        RxBus.listen(TotalMessagesEvent::class.java)
+        infoBusListener = RxBus.listen(TotalMessagesEvent::class.java)
                 .subscribe {
                     _view.txtTotalMessages.text = "${it.total}"
                 }
