@@ -28,12 +28,21 @@ class RatesAdapter(val items: List<Rate>) : RecyclerView.Adapter<RatesAdapter.Vi
             txtProfile.text = rate.text
             txtRatePunt.text = "${rate.rate}"
             txtCalendar.text = SimpleDateFormat("yyyy MM dd", Locale.US).format(rate.createdAt)
-            Picasso.get()
-                    .load(rate.profileImageUrl)
-                    .resize(100, 100)
-                    .centerCrop()
-                    .transform(CirclerTransform())
-                    .into(imgProfile)
+            if (rate.profileImageUrl.isNotEmpty()) {
+                Picasso.get()
+                        .load(rate.profileImageUrl)
+                        .resize(100, 100)
+                        .centerCrop()
+                        .transform(CirclerTransform())
+                        .into(imgProfile)
+            } else {
+                Picasso.get()
+                        .load(R.drawable.ic_person)
+                        .resize(100, 100)
+                        .centerCrop()
+                        .transform(CirclerTransform())
+                        .into(imgProfile)
+            }
         }
     }
 }

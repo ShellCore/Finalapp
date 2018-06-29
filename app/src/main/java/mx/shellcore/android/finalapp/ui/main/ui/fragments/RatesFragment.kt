@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +23,7 @@ import mx.shellcore.android.finalapp.utils.RxBus
 import mx.shellcore.android.finalapp.utils.showMessage
 import java.util.*
 import java.util.EventListener
+import kotlin.collections.ArrayList
 
 class RatesFragment : Fragment() {
 
@@ -38,6 +40,8 @@ class RatesFragment : Fragment() {
 
     private var ratesSubscription: ListenerRegistration? = null
     private lateinit var rateBusListener: Disposable
+
+    private lateinit var scrollListener: RecyclerView.OnScrollListener
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -58,6 +62,7 @@ class RatesFragment : Fragment() {
     override fun onDestroyView() {
         rateBusListener.dispose()
         ratesSubscription?.remove()
+        _view.recView.removeOnScrollListener(scrollListener)
         super.onDestroyView()
     }
 
@@ -71,11 +76,28 @@ class RatesFragment : Fragment() {
 
     private fun setupRecyclerView() {
         ratesAdapter = RatesAdapter(rateList)
+
+        scrollListener = object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                if (dy > 0 || dy < 0 && _view.fabRating.isShown) {
+                    _view.fabRating.hide()
+                }
+            }
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    _view.fabRating.show()
+                }
+                super.onScrollStateChanged(recyclerView, newState)
+            }
+        }
+
         _view.recView.apply {
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
             itemAnimator = DefaultItemAnimator()
             adapter = ratesAdapter
+            addOnScrollListener(scrollListener)
         }
     }
 
@@ -87,6 +109,7 @@ class RatesFragment : Fragment() {
 
     private fun saveRate(rate: Rate) {
         val newRating = HashMap<String, Any>()
+        newRating["userId"] = rate.userId
         newRating["text"] = rate.text
         newRating["rate"] = rate.rate
         newRating["createdAt"] = rate.createdAt
@@ -114,6 +137,7 @@ class RatesFragment : Fragment() {
                             rateList.clear()
                             val rates = it.toObjects(Rate::class.java)
                             rateList.addAll(rates)
+                            removeFabIfRated(hasUserRated(rateList))
                             ratesAdapter.notifyDataSetChanged()
                             _view.recView.smoothScrollToPosition(0)
                         }
@@ -126,5 +150,21 @@ class RatesFragment : Fragment() {
                 .subscribe {
                     saveRate(it.rate)
                 }
+    }
+
+    private fun removeFabIfRated(rated: Boolean) {
+        if (rated) {
+            _view.fabRating.hide()
+            _view.recView.removeOnScrollListener(scrollListener)
+        }
+    }
+
+    private fun hasUserRated(rates: ArrayList<Rate>) : Boolean {
+        rates.forEach {
+            if (it.userId == currentUser.uid) {
+                return true
+            }
+        }
+        return false
     }
 }
